@@ -13,7 +13,7 @@ pipeline {
     stages {
         stage('Build'){
             steps {
-                sh 'mvn clean package'
+                bat 'mvn clean package'
             }
             post {
                 success {
@@ -27,13 +27,13 @@ pipeline {
             parallel {
                 stage ('Deploy to Staging') {
                     steps {
-                        batch "scp -i /jenkins/tomcat.ppk **/target/*.war ec2-user@{params.tomcat_dev}:/var/lib/tomcat/webapps"
+                        bat "scp -i /jenkins/tomcat.ppk **/target/*.war ec2-user@{params.tomcat_dev}:/var/lib/tomcat/webapps"
                     }
                 }
 
                 stage ('Deploy to Production') {
                     steps{
-                        batch "scp -i /jenkins/tomcat.ppk **/target/*.war ec2-user@{params.tomcat_prod}:/var/lib/tomcat/webapps"
+                        bat "scp -i /jenkins/tomcat.ppk **/target/*.war ec2-user@{params.tomcat_prod}:/var/lib/tomcat/webapps"
                     }
                     
                 }
