@@ -27,12 +27,15 @@ pipeline {
             parallel {
                 stage ('Deploy to Staging') {
                     steps {
-                        sh "scp -i /jenkins/tomcat.ppk **/target/*.war ec2-user@{params.tomcat_dev}:/var/lib/tomcat/webapps"
+                        batch "scp -i /jenkins/tomcat.ppk **/target/*.war ec2-user@{params.tomcat_dev}:/var/lib/tomcat/webapps"
                     }
                 }
 
                 stage ('Deploy to Production') {
-                    sh "scp -i /jenkins/tomcat.ppk **/target/*.war ec2-user@{params.tomcat_prod}:/var/lib/tomcat/webapps"
+                    steps{
+                        batch "scp -i /jenkins/tomcat.ppk **/target/*.war ec2-user@{params.tomcat_prod}:/var/lib/tomcat/webapps"
+                    }
+                    
                 }
             }
         }
