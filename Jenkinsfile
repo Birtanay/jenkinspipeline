@@ -13,5 +13,10 @@ pipeline {
                 }
             }
         }
+        stage ('Deploy To Staging') {
+            steps {
+                build job: 'Tomcat8-DeployTo-Staging'
+            }
+        }
     }
 }
